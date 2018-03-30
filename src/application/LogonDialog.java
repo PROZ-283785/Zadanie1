@@ -1,7 +1,6 @@
 package application;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -229,52 +228,7 @@ public class LogonDialog {
 		dialog.setGraphic(imageView);
 		
 	}
-	
-	/**
-	 * Updates json file
-	 * @exception IOException
-	 */
 
-	private void updateDatabase(){
-		
-		JSONArray array = new JSONArray();
-		JSONObject obj = new JSONObject();
-	
-		ObservableList<Environment> values = environment.getItems();
-	
-		for(Environment value: values) {
-			array.add(value.getName());
-		}
-	
-		obj.put("Srodowisko", array);
-		
-		for(Environment env: values) {
-			array = new JSONArray();
-			for(String login: env.getUsers()) {
-				array.add(login);
-				obj.put(login, env.getUserPass(login));
-			}
-			
-			
-			obj.put(env, array);
-			
-		}
-		
-		
-		FileWriter file;
-		try {
-			
-			file = new FileWriter("database.json");
-			file.write(obj.toJSONString());
-			file.close();
-			
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		
-	}
-	
 	/**
 	 * Checks if there is a user with a given password
 	 * if password is incorrect then can`t log in
@@ -294,10 +248,8 @@ public class LogonDialog {
 			return false;
 		}
 		else if(!users.contains(usr)) {
-			env.addUser(usr, passwd);
-			updateDatabase();
-			System.out.println("Dodano nowego u¿ytkownika");
-			return true;
+			return false;
+			
 		}
 		
 		return false;
